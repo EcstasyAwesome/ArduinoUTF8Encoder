@@ -15,10 +15,16 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private void process(TextField text, TextField result) {
+    private void processText(TextField text, TextField result) {
         if (text.getText().length() > 0) {
             result.setText(SymbolHandler.getInstance().processText(text.getText()));
         } else if (result.getText().length() > 0) result.setText("");
+    }
+
+    private void copyToClipboard(TextField result) {
+        ClipboardContent content = new ClipboardContent();
+        content.putString(result.getText());
+        Clipboard.getSystemClipboard().setContent(content);
     }
 
     @Override
@@ -39,22 +45,17 @@ public class App extends Application {
         TextField textField = new TextField();
         textField.setAlignment(Pos.CENTER_LEFT);
         textField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) process(textField, resultField);
+            if (event.getCode() == KeyCode.ENTER) processText(textField, resultField);
         });
 
         Button buttonProcess = new Button("Process text");
         buttonProcess.setFocusTraversable(false);
-        buttonProcess.setOnAction(event -> process(textField, resultField));
+        buttonProcess.setOnAction(event -> processText(textField, resultField));
 
         Button buttonCopy = new Button("Copy result");
         buttonCopy.setFocusTraversable(false);
         buttonCopy.setOnAction(event -> {
-            if (resultField.getText().length() > 0) {
-                Clipboard clipboard = Clipboard.getSystemClipboard();
-                ClipboardContent content = new ClipboardContent();
-                content.putString(resultField.getText());
-                clipboard.setContent(content);
-            }
+            if (resultField.getText().length() > 0) copyToClipboard(resultField);
         });
 
         root.getChildren().addAll(labelText, textField, buttonProcess, labelResult, resultField, buttonCopy);
