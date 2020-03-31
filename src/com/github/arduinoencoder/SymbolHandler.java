@@ -23,7 +23,7 @@ public class SymbolHandler implements TextHandler {
             scanner.useDelimiter(";");
             while (scanner.hasNext()) {
                 String data = scanner.next().replaceAll("[^а-яА-Яa-zA-ZёЁ\\d=\\\\]", "");
-                if (data.matches("^.=(\\\\\\d{3}|.)$")) symbols.put(data.charAt(0), data.substring(2));
+                if (data.matches("^.=(\\\\\\d{3}|.)$")) symbols.putIfAbsent(data.charAt(0), data.substring(2));
             }
         }
     }
@@ -32,8 +32,7 @@ public class SymbolHandler implements TextHandler {
     public String processText(String text) {
         StringBuilder stringBuilder = new StringBuilder();
         for (char symbol : text.toCharArray()) {
-            if (symbols.containsKey(symbol)) stringBuilder.append(symbols.get(symbol));
-            else stringBuilder.append(symbol);
+            stringBuilder.append(symbols.getOrDefault(symbol, String.valueOf(symbol)));
         }
         return stringBuilder.toString();
     }
