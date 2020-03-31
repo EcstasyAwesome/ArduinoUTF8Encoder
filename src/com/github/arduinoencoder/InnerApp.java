@@ -2,7 +2,7 @@ package com.github.arduinoencoder;
 
 import java.util.Scanner;
 
-public class ArduinoEncoder {
+public class InnerApp {
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
