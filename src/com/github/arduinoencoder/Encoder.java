@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class SymbolHandler implements TextHandler {
+public class Encoder {
 
-    private static SymbolHandler instance;
-    private Map<Character, String> symbols = new HashMap<>();
+    private final static Encoder INSTANCE = new Encoder();
+    private final Map<Character, String> symbols = new HashMap<>();
 
-    private SymbolHandler() {
+    private Encoder() {
         loadSymbols();
     }
 
-    public static SymbolHandler getInstance() {
-        if (instance == null) instance = new SymbolHandler();
-        return instance;
+    public static Encoder getInstance() {
+        return INSTANCE;
     }
 
     private void loadSymbols() {
@@ -28,7 +27,6 @@ public class SymbolHandler implements TextHandler {
         }
     }
 
-    @Override
     public String processText(String text) {
         StringBuilder stringBuilder = new StringBuilder();
         for (char symbol : text.toCharArray()) {

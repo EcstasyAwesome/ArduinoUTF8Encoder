@@ -15,10 +15,10 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private void processText(TextField text, TextField result) {
-        if (text.getText().length() > 0) {
-            result.setText(SymbolHandler.getInstance().processText(text.getText()));
-        } else if (result.getText().length() > 0) result.setText("");
+    private void processText(TextField textField, TextField resultField) {
+        String text = textField.getText();
+        if (!text.isEmpty()) resultField.setText(Encoder.getInstance().processText(text));
+        else if (!resultField.getText().isEmpty()) resultField.clear();
     }
 
     private void copyToClipboard(TextField result) {
@@ -28,46 +28,37 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
         VBox root = new VBox();
-        root.setPadding(new Insets(0, 10, 0, 10));
+        root.setPadding(new Insets(5, 10, 0, 10));
         root.setSpacing(5);
-
         Label labelText = new Label("Enter text:");
-
         Label labelResult = new Label("Result:");
-        labelResult.setPadding(new Insets(10, 0, 0, 0));
-
+        labelResult.setPadding(new Insets(5, 0, 0, 0));
         TextField resultField = new TextField();
         resultField.setAlignment(Pos.CENTER_LEFT);
         resultField.setEditable(false);
-
+        resultField.setPrefSize(500, 25);
         TextField textField = new TextField();
         textField.setAlignment(Pos.CENTER_LEFT);
+        textField.setPrefSize(500, 25);
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) processText(textField, resultField);
         });
-
         Button buttonProcess = new Button("Process text");
         buttonProcess.setFocusTraversable(false);
         buttonProcess.setOnAction(event -> processText(textField, resultField));
-
         Button buttonCopy = new Button("Copy result");
         buttonCopy.setFocusTraversable(false);
         buttonCopy.setOnAction(event -> {
             if (resultField.getText().length() > 0) copyToClipboard(resultField);
         });
-
         root.getChildren().addAll(labelText, textField, buttonProcess, labelResult, resultField, buttonCopy);
-
         Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Arduino UTF8 Encoder");
-        primaryStage.setScene(scene);
-        primaryStage.setHeight(210);
-        primaryStage.setWidth(500);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        stage.setTitle("Arduino UTF-8 Encoder");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void main(String[] args) {

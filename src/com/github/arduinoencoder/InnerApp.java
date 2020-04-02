@@ -10,7 +10,7 @@ public class InnerApp {
                 if (scanner.hasNext()) {
                     String text = scanner.next();
                     if (text.equals("exit")) break;
-                    else System.out.println(SymbolHandler.getInstance().processText(text));
+                    else System.out.println(Encoder.getInstance().processText(text));
                 }
             }
         }
