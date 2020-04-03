@@ -1,5 +1,5 @@
 # ArduinoUTF8Encoder
-Arduino text encoder with simple GUI (to write russian letters on LCD displays)
+The program with simple GUI to write russian letters on LCD displays.
 
 Inspired by [this](http://kkblog.ru/cyrillic-display-arduino/) article. The program is simple to use.
 
